@@ -243,6 +243,36 @@ function render(){
  "—":format(Number(record.subscription)-completed.size);
 
  $("completed").textContent="Проведено: "+completed.size;
+ 
+ // Визуальная пометка без автоматического переноса
+ const balance=record.subscription==null
+   ?null:Number(record.subscription)-completed.size;
+
+ const now=new Date();
+ const currentMonth=now.getFullYear()+"-"+
+   String(now.getMonth()+1).padStart(2,"0");
+
+ const showNotice=ym<currentMonth&&
+   balance!==null&&Number.isFinite(balance)&&balance>0;
+
+ const isLight=/^(winter|spring|summer)$/.test(document.body.className);
+ const noticeColor=isLight?"#b4233b":"#ffb0bd";
+
+ $("remaining").style.color=showNotice?noticeColor:"";
+
+ let notice=$("carryoverNotice");
+
+ if(!notice){
+   notice=document.createElement("div");
+   notice.id="carryoverNotice";
+   notice.style.cssText="margin-top:6px;font-size:11px;font-weight:700;line-height:1.4";
+   $("completed").insertAdjacentElement("afterend",notice);
+ }
+
+ notice.textContent="Перенесены в новый месяц";
+ notice.style.color=noticeColor;
+ notice.hidden=!showNotice;
+
  $("price").textContent=format(student.price);
  $("minutes").textContent=format(student.minutes);
 
