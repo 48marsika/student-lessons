@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Мои уроки — Демо</title>
+<style>
+*{box-sizing:border-box}
+body{
+  --text:#fff9fc;
+  --muted:#dfd1e6;
+  --card:#30213e;
+  --line:#604b69;
+  --soft:#483253;
+  --green:#99e9b9;
+  margin:0;
+  min-height:100vh;
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(145deg,#271932,#613757);
+}
+body.winter{
+  --text:#213c52;--muted:#526c80;
+  --card:#fff;--line:#c5dff0;
+  --soft:#e3f1fb;--green:#166746;
+  background:linear-gradient(145deg,#afd7f4,#eff9ff);
+}
+body.spring{
+  --text:#294533;--muted:#586c60;
+  --card:#fff;--line:#c9e2d0;
+  --soft:#fbe7f0;--green:#166746;
+  background:linear-gradient(145deg,#ccebd9,#fff0f6);
+}
+body.summer{
+  --text:#234653;--muted:#526c77;
+  --card:#fff;--line:#bde1e4;
+  --soft:#fff0c9;--green:#166746;
+  background:linear-gradient(145deg,#b3eaf5,#fff0bc);
+}
+main{max-width:960px;margin:auto;padding:24px}
+button{font:inherit;cursor:pointer}
+header,.month,.stat,.calendar{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+.top{
+  display:flex;align-items:center;
+  justify-content:space-between;gap:10px;
+  margin-bottom:20px;
+  font-weight:700;
+}
+.demo{font-size:11px;color:var(--muted)}
+.themes{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-bottom:14px;
+}
+.themes button,.arrows button{
+  background:var(--soft);color:var(--text);
+  border:1px solid var(--line);
+  border-radius:11px;padding:10px;
+}
+.themes button.active{
+  outline:2px solid var(--green);
+  outline-offset:-2px;
+}
+header{
+  padding:30px;display:flex;
+  align-items:center;justify-content:space-between;
+  gap:15px;margin-bottom:14px;
+}
+h1{font-size:clamp(29px,5vw,42px);margin:8px 0}
+h2{font-size:23px;margin:5px 0}
+small,.eyebrow{color:var(--muted)}
+.eyebrow{
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+.symbol{font-size:72px}
+.month{
+  padding:20px;display:flex;
+  justify-content:space-between;align-items:center;
+  margin-bottom:14px;
+}
+.arrows{display:flex;gap:7px}
+.arrows button{font-size:22px;width:40px;height:40px}
+.arrows button:disabled{opacity:.3}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;margin-bottom:14px;
+}
+.stat{padding:21px 16px}
+.label{color:var(--muted);font-size:12px;min-height:30px}
+.value{
+  font-size:34px;font-weight:800;
+  margin:12px 0 5px;color:var(--text);
+}
+.value.green{color:var(--green)}
+.note{font-size:11px;color:var(--muted)}
+.calendar{padding:25px}
+.week,.days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  text-align:center;gap:5px;
+}
+.week{
+  padding:15px 0;color:var(--muted);
+  font-size:11px;border-bottom:1px solid var(--line);
+}
+.days{margin-top:12px}
+.day{
+  min-height:55px;display:flex;
+  justify-content:center;align-items:center;
+  color:var(--text);
+}
+.done{
+  width:35px;height:35px;
+  display:grid;place-items:center;
+  background:#166746;color:white;
+  border-radius:50%;font-weight:700;
+}
+footer{
+  text-align:center;color:var(--muted);
+  font-size:11px;margin-top:25px;
+}
+@media(max-width:650px){
+  main{padding:12px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  header{padding:20px}
+  .symbol{font-size:45px}
+  .stat{padding:15px}
+  .calendar{padding:15px 10px}
+  .day{min-height:40px}
+  .done{width:30px;height:30px}
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <span>✦ Мои уроки</span>
+    <span class="demo">ДЕМО · Без личных данных</span>
+  </div>
+
+  <nav class="themes">
+    <button onclick="changeTheme('auto')">Авто</button>
+    <button onclick="changeTheme('halloween')">🎃 Осень</button>
+    <button onclick="changeTheme('winter')">❄️ Зима</button>
+    <button onclick="changeTheme('spring')">🌸 Весна</button>
+    <button onclick="changeTheme('summer')">☀️ Лето</button>
+  </nav>
+
+  <header>
+    <div>
+      <div class="eyebrow">Личный кабинет ученика</div>
+      <h1>Мой абонемент</h1>
+      <small>Календарь занятий</small>
+      <p id="seasonLabel">Осенний сезон</p>
+    </div>
+    <div class="symbol" id="symbol">🎃</div>
+  </header>
+
+  <section class="month">
+    <div>
+      <div class="eyebrow">Месяц</div>
+      <h2 id="monthName">Октябрь 2026</h2>
+    </div>
+    <div class="arrows">
+      <button id="prev" onclick="move(-1)">‹</button>
+      <button id="next" onclick="move(1)">›</button>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="label">Абонемент</div>
+      <div class="value">8</div>
+      <div class="note">уроков</div>
+    </div>
+    <div class="stat">
+      <div class="label">Осталось уроков</div>
+      <div class="value green" id="left">3</div>
+      <div class="note" id="completed">Проведено: 5</div>
+    </div>
+    <div class="stat">
+      <div class="label">Стоимость 1 урока</div>
+      <div class="value">1 200</div>
+      <div class="note">рублей</div>
+    </div>
+    <div class="stat">
+      <div class="label">Длительность урока</div>
+      <div class="value">60</div>
+      <div class="note">минут</div>
+    </div>
+  </section>
+
+  <section class="calendar">
+    <div class="eyebrow">Календарь уроков</div>
+    <h2 id="calendarMonth">Октябрь 2026</h2>
+    <div class="week">
+      <span>ПН</span><span>ВТ</span><span>СР</span>
+      <span>ЧТ</span><span>ПТ</span><span>СБ</span>
+      <span>ВС</span>
+    </div>
+    <div class="days" id="days"></div>
+    <p class="note">🟢 Зелёные кружки — проведённые уроки</p>
+  </section>
+
+  <footer>
+    Демонстрационная версия.
+    Настоящие данные учеников не опубликованы.
+  </footer>
+</main>
+
+<script>
+const names=[
+  "Январь","Февраль","Март","Апрель",
+  "Май","Июнь","Июль","Август",
+  "Сентябрь","Октябрь","Ноябрь","Декабрь"
+];
+const keys=Array.from({length:15},(_,i)=>{
+  let d=new Date(2026,9+i,1);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+});
+const demoDates={
+  "2026-10":[2,5,7,9,10]
+};
+let index=Math.max(0,keys.indexOf(
+  new Date().getFullYear()+"-"+
+  String(new Date().getMonth()+1).padStart(2,"0")
+));
+let preference="auto";
+
+function seasonNow(){
+  let m=new Date().getMonth()+1;
+  if(m===12||m<=2)return "winter";
+  if(m<=5)return "spring";
+  if(m<=8)return "summer";
+  return "halloween";
+}
+function changeTheme(choice){
+  preference=choice;
+  applyTheme();
+}
+function applyTheme(){
+  const s=preference==="auto"?seasonNow():preference;
+  const info={
+    halloween:["🎃","Хеллоуин"],
+    winter:["❄️","Зимняя сказка"],
+    spring:["🌸","Весеннее настроение"],
+    summer:["☀️","Летнее настроение"]
+  };
+  document.body.className=s;
+  document.getElementById("symbol").textContent=info[s][0];
+  document.getElementById("seasonLabel").textContent=info[s][1];
+  document.querySelectorAll(".themes button").forEach(b=>{
+    b.classList.toggle("active",b.textContent.includes(
+      preference==="auto"?"Авто":
+      {halloween:"Осень",winter:"Зима",spring:"Весна",summer:"Лето"}[preference]
+    ));
+  });
+}
+function move(step){
+  index=Math.max(0,Math.min(14,index+step));
+  render();
+}
+function render(){
+  const key=keys[index];
+  const y=Number(key.slice(0,4));
+  const m=Number(key.slice(5));
+  const title=names[m-1]+" "+y;
+  const done=new Set(demoDates[key]||[]);
+
+  document.getElementById("monthName").textContent=title;
+  document.getElementById("calendarMonth").textContent=title;
+  document.getElementById("left").textContent=8-done.size;
+  document.getElementById("completed").textContent=
+    "Проведено: "+done.size;
+  document.getElementById("prev").disabled=index===0;
+  document.getElementById("next").disabled=index===14;
+
+  const grid=document.getElementById("days");
+  grid.replaceChildren();
+  const offset=(new Date(y,m-1,1).getDay()+6)%7;
+  const count=new Date(y,m,0).getDate();
+
+  for(let i=0;i<offset;i++){
+    grid.appendChild(document.createElement("div"));
+  }
+  for(let day=1;day<=count;day++){
+    let cell=document.createElement("div");
+    cell.className="day";
+    if(done.has(day)){
+      const badge=document.createElement("span");
+      badge.className="done";
+      badge.textContent=day;
+      cell.appendChild(badge);
+    }else{
+      cell.textContent=day;
+    }
+    grid.appendChild(cell);
+  }
+}
+applyTheme();
+render();
+setInterval(()=>{
+  if(preference==="auto")applyTheme();
+},60000);
+</script>
+</body>
+</html>
