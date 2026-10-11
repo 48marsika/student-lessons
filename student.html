@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Мои уроки — Личный кабинет</title>
+<style>
+*{box-sizing:border-box}
+body{
+ --fg:#fff9fc;--muted:#e0cfe6;
+ --card:#2d2039;--border:#685070;
+ --green:#98ebba;--soft:#483452;
+ margin:0;min-height:100vh;
+ font-family:"Segoe UI",Arial,sans-serif;
+ color:var(--fg);
+ background:linear-gradient(135deg,#24172e,#69415e);
+}
+body.winter{
+ --fg:#20394f;--muted:#536b7d;
+ --card:#fff;--border:#c5ddeb;
+ --green:#166746;--soft:#dfedf9;
+ background:linear-gradient(135deg,#b5dcf5,#f1faff);
+}
+body.spring{
+ --fg:#294333;--muted:#586d60;
+ --card:#fff;--border:#cce2d1;
+ --green:#166746;--soft:#fbe8ef;
+ background:linear-gradient(135deg,#d2f0de,#ffe9f2);
+}
+body.summer{
+ --fg:#244450;--muted:#526d77;
+ --card:#fff;--border:#bee0e4;
+ --green:#166746;--soft:#fff1c9;
+ background:linear-gradient(135deg,#b7e9f4,#fff0c0);
+}
+main{max-width:940px;margin:auto;padding:24px}
+header,.month,.stat,.calendar{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:19px;
+}
+header{
+ padding:26px;display:flex;
+ align-items:center;justify-content:space-between;
+ gap:15px;margin-bottom:14px;
+}
+h1{font-size:clamp(27px,5vw,40px);margin:10px 0}
+h2{font-size:22px;margin:6px 0}
+small,.label,.note,.eyebrow{color:var(--muted)}
+.eyebrow{
+ text-transform:uppercase;font-weight:750;
+ font-size:11px;letter-spacing:1px;
+}
+.symbol{font-size:65px}
+.month{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:10px;padding:20px;margin-bottom:14px;
+}
+.arrows{display:flex;gap:7px}
+.arrows button{
+ background:var(--soft);color:var(--fg);
+ border:1px solid var(--border);
+ border-radius:10px;width:40px;height:40px;
+ font-size:23px;cursor:pointer;
+}
+.arrows button:disabled{opacity:.3;cursor:default}
+.stats{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:12px;margin-bottom:14px;
+}
+.stat{padding:20px 15px}
+.label{font-size:12px;min-height:33px}
+.value{
+ font-size:clamp(25px,4vw,35px);
+ font-weight:800;letter-spacing:-.04em;
+ margin:12px 0 5px;
+}
+.value.green{color:var(--green)}
+.note{font-size:11px}
+.calendar{padding:25px}
+.week,.days{
+ display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
+ text-align:center;gap:4px;
+}
+.week{
+ padding:14px 0 10px;border-bottom:1px solid var(--border);
+ color:var(--muted);font-size:11px;
+}
+.days{margin-top:10px}
+.day{
+ min-height:52px;display:grid;place-items:center;
+ font-size:13px;font-weight:600;
+}
+.done{
+ display:grid;place-items:center;
+ height:35px;width:35px;
+ border-radius:50%;
+ background:#166746;color:#fff;font-weight:750;
+}
+.status{
+ padding:12px 15px;margin-bottom:14px;
+ background:var(--card);border:1px solid var(--border);
+ border-radius:12px;color:var(--muted);font-size:12px;
+}
+footer{text-align:center;color:var(--muted);font-size:11px;margin:23px 0}
+@media(max-width:620px){
+ main{padding:12px}
+ header{padding:19px}
+ .symbol{font-size:45px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stat{padding:15px}
+ .calendar{padding:16px 10px}
+ .day{min-height:40px}
+ .done{height:30px;width:30px}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <div>
+  <div class="eyebrow">Личный кабинет ученика</div>
+  <h1>Мой абонемент</h1>
+  <small id="studentName">Загрузка данных…</small>
+ </div>
+ <div class="symbol" id="symbol">🎃</div>
+</header>
+
+<div id="status" class="status" role="status">
+ Ожидаем личные данные.
+</div>
+
+<section class="month">
+ <div>
+  <div class="eyebrow">Месяц</div>
+  <h2 id="monthName">Октябрь 2026</h2>
+ </div>
+ <div class="arrows">
+  <button id="prev" aria-label="Предыдущий месяц">‹</button>
+  <button id="next" aria-label="Следующий месяц">›</button>
+ </div>
+</section>
+
+<section class="stats">
+ <div class="stat">
+  <div class="label">Абонемент</div>
+  <div class="value" id="subscription">—</div>
+  <div class="note">уроков</div>
+ </div>
+ <div class="stat">
+  <div class="label">Осталось уроков</div>
+  <div class="value green" id="remaining">—</div>
+  <div class="note" id="completed">Проведено: —</div>
+ </div>
+ <div class="stat">
+  <div class="label">Стоимость 1 урока</div>
+  <div class="value" id="price">—</div>
+  <div class="note">рублей</div>
+ </div>
+ <div class="stat">
+  <div class="label">Длительность 1 урока</div>
+  <div class="value" id="minutes">—</div>
+  <div class="note">минут</div>
+ </div>
+</section>
+
+<section class="calendar">
+ <div class="eyebrow">Календарь занятий</div>
+ <h2 id="calendarMonth">Октябрь 2026</h2>
+ <div class="week">
+  <span>ПН</span><span>ВТ</span><span>СР</span>
+  <span>ЧТ</span><span>ПТ</span><span>СБ</span>
+  <span>ВС</span>
+ </div>
+ <div class="days" id="days"></div>
+ <p class="note">Зелёные кружки — проведённые уроки.</p>
+</section>
+
+<footer>Личный журнал занятий · Только просмотр</footer>
+</main>
+
+<script>
+(function(){
+"use strict";
+
+const $ = id => document.getElementById(id);
+const monthNames=[
+ "Январь","Февраль","Март","Апрель",
+ "Май","Июнь","Июль","Август",
+ "Сентябрь","Октябрь","Ноябрь","Декабрь"
+];
+
+const keys=Array.from({length:15},(_,i)=>{
+ const d=new Date(2026,9+i,1);
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+});
+
+const currentKey=new Date().getFullYear()+"-"+
+ String(new Date().getMonth()+1).padStart(2,"0");
+
+let index=Math.max(0,keys.indexOf(currentKey));
+let student=null;
+
+function setSeason(){
+ const m=new Date().getMonth()+1;
+ const season=m===12||m<=2?"winter":
+              m<=5?"spring":
+              m<=8?"summer":"halloween";
+ document.body.className=season;
+ $("symbol").textContent={
+  halloween:"🎃",winter:"❄️",
+  spring:"🌸",summer:"☀️"
+ }[season];
+}
+
+function format(value){
+ return value===null||value===undefined||value===""?
+ "—":Number(value).toLocaleString("ru-RU");
+}
+
+function render(){
+ if(!student)return;
+
+ const ym=keys[index];
+ const year=Number(ym.slice(0,4));
+ const month=Number(ym.slice(5));
+
+ const record=student.months.find(x=>x.ym===ym)||
+ {ym,subscription:null,dates:[]};
+
+ const completed=new Set(record.dates||[]);
+ const title=monthNames[month-1]+" "+year;
+
+ $("monthName").textContent=title;
+ $("calendarMonth").textContent=title;
+ $("studentName").textContent=student.name||"Ученик";
+
+ $("subscription").textContent=format(record.subscription);
+ $("remaining").textContent=record.subscription==null?
+ "—":format(Number(record.subscription)-completed.size);
+
+ $("completed").textContent="Проведено: "+completed.size;
+ $("price").textContent=format(student.price);
+ $("minutes").textContent=format(student.minutes);
+
+ $("prev").disabled=index===0;
+ $("next").disabled=index===14;
+
+ const grid=$("days");
+ grid.replaceChildren();
+
+ const offset=(new Date(year,month-1,1).getDay()+6)%7;
+ for(let i=0;i<offset;i++)
+  grid.append(document.createElement("div"));
+
+ const last=new Date(year,month,0).getDate();
+
+ for(let d=1;d<=last;d++){
+  const key=ym+"-"+String(d).padStart(2,"0");
+  const day=document.createElement("div");
+  day.className="day";
+
+  if(completed.has(key)){
+   const circle=document.createElement("span");
+   circle.className="done";
+   circle.textContent=d;
+   day.append(circle);
+  }else{
+   day.textContent=d;
+  }
+  grid.append(day);
+ }
+}
+
+function b64url(str){
+ if(!/^[A-Za-z0-9_-]+$/.test(str||""))
+  throw new Error("Invalid encoded value");
+ const b=str.replace(/-/g,"+").replace(/_/g,"/");
+ return Uint8Array.from(
+  atob(b+"=".repeat((4-b.length%4)%4)),
+  c=>c.charCodeAt(0)
+ );
+}
+
+async function loadStudent(){
+ const query=new URLSearchParams(location.search);
+ const fragment=new URLSearchParams(location.hash.slice(1));
+ const id=query.get("u");
+ const encodedKey=fragment.get("k");
+
+ if(!/^[a-f0-9]{32}$/.test(id||"")||!encodedKey){
+  $("status").textContent="Откройте личную ссылку преподавателя.";
+  return;
+ }
+
+ try{
+  const response=await fetch(
+   "./data/records.json?t="+Date.now(),
+   {cache:"no-store",credentials:"omit"}
+  );
+
+  if(!response.ok)throw new Error("Данные пока не опубликованы");
+
+  const bundle=await response.json();
+  const record=bundle.records?.[id];
+
+  if(!record||record.v!==1)
+   throw new Error("Запись не найдена");
+
+  const keyBytes=b64url(encodedKey);
+  const iv=b64url(record.iv);
+  const ct=b64url(record.ct);
+  const mac=b64url(record.mac);
+
+  if(keyBytes.length!==64||iv.length!==16||mac.length!==32)
+   throw new Error("Недопустимый ключ");
+
+  const prefix=new TextEncoder().encode("lessons-v1:"+id);
+  const signed=new Uint8Array(prefix.length+iv.length+ct.length);
+
+  signed.set(prefix,0);
+  signed.set(iv,prefix.length);
+  signed.set(ct,prefix.length+iv.length);
+
+  const macKey=await crypto.subtle.importKey(
+   "raw",keyBytes.slice(32),
+   {name:"HMAC",hash:"SHA-256"},
+   false,["verify"]
+  );
+
+  const valid=await crypto.subtle.verify(
+   "HMAC",macKey,mac,signed
+  );
+
+  if(!valid)throw new Error("Недопустимый ключ");
+
+  const aesKey=await crypto.subtle.importKey(
+   "raw",keyBytes.slice(0,32),
+   "AES-CBC",false,["decrypt"]
+  );
+
+  const decoded=await crypto.subtle.decrypt(
+   {name:"AES-CBC",iv},aesKey,ct
+  );
+
+  const result=JSON.parse(new TextDecoder().decode(decoded));
+
+  if(!Array.isArray(result.months))
+   throw new Error("Некорректные данные");
+
+  student=result;
+  $("status").textContent="Данные обновлены: "+
+   new Date().toLocaleTimeString("ru-RU",{
+    hour:"2-digit",minute:"2-digit"
+   });
+
+  render();
+ }catch(error){
+  $("status").textContent=student?
+   "Не удалось проверить новые данные. Показана последняя версия.":
+   "Не удалось открыть кабинет. Проверьте личную ссылку.";
+ }
+}
+
+$("prev").addEventListener("click",()=>{
+ if(index>0){index--;render();}
+});
+$("next").addEventListener("click",()=>{
+ if(index<14){index++;render();}
+});
+
+setSeason();
+loadStudent();
+
+setInterval(()=>{
+ setSeason();
+ if(!document.hidden)loadStudent();
+},60000);
+})();
+</script>
+</body>
+</html>
