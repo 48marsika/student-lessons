@@ -247,6 +247,15 @@ body.winter{--phone-top:#f1f7ff;--phone-mid:#d7e6f7;--phone-low:#b6cde6;--phone-
 .bank-choice[data-bank=tbank] .bank-mark{background:#ffdd2d;color:#222;}
 .phone-payment button:focus-visible,.phone-payment input:focus-visible,.arrows button:focus-visible{outline:3px solid var(--green);outline-offset:4px;}
 
+
+/* Five illustrated summer and autumn themes. */
+body.june{--fg:#3d4e3f;--muted:#617157;--card:#fffcef;--border:#b9c3a0;--green:#7c5426;--soft:#e8edcf;--hero:#eef1d9;--hero-fg:#3e5039;--done-fg:#fff;color-scheme:light;background:radial-gradient(ellipse at 85% 0%,#ffe5b0,transparent 60%),#e6dfc9;--phone-top:#edf4d9;--phone-mid:#d8e3b7;--phone-low:#bbc793;--phone-end:#e1eac3;--phone-ink:#354023;--phone-edge:#a8b67b;--phone-base:#73804f;--phone-text-highlight:#ffffff88;}
+body.july{--fg:#174c52;--muted:#45696e;--card:#f2fffc;--border:#99c8c5;--green:#166c78;--soft:#d7f0ee;--hero:#dcf4ee;--hero-fg:#1d5055;--done-fg:#fff;color-scheme:light;background:radial-gradient(ellipse at 20% 0%,#d8faf1,transparent 60%),#b5e2df;--phone-top:#dcf7ee;--phone-mid:#b8e5dc;--phone-low:#94d0c7;--phone-end:#caece3;--phone-ink:#173f43;--phone-edge:#7bb9b2;--phone-base:#4c8783;--phone-text-highlight:#ffffff88;}
+body.august{--fg:#4e455f;--muted:#706378;--card:#fff8fc;--border:#d6b9ce;--green:#98476f;--soft:#f4e3ee;--hero:#f8e8f0;--hero-fg:#573b58;--done-fg:#fff;color-scheme:light;background:radial-gradient(ellipse at 15% 0%,#b9e9f0,transparent 60%),#eadbe7;--phone-top:#fbe0ef;--phone-mid:#edcada;--phone-low:#ddb4ce;--phone-end:#f3d4e5;--phone-ink:#54334e;--phone-edge:#c998b9;--phone-base:#936882;--phone-text-highlight:#ffffff88;}
+body.september{--fg:#4c402d;--muted:#716044;--card:#fff7e8;--border:#c9b48f;--green:#936123;--soft:#efdfc3;--hero:#f0e4ce;--hero-fg:#514029;--done-fg:#fff;color-scheme:light;background:radial-gradient(ellipse at 80% 0%,#edc98e,transparent 60%),#ddd2ba;--phone-top:#f6dfb6;--phone-mid:#e4c28d;--phone-low:#c8a46b;--phone-end:#ecd09f;--phone-ink:#49341d;--phone-edge:#b18c52;--phone-base:#806237;--phone-text-highlight:#ffffff88;}
+body.october{--fg:#f8eafa;--muted:#d6c2df;--card:#2b1539;--border:#9067a2;--green:#f4b37b;--soft:#452356;--hero:#241033;--hero-fg:#fff0dc;--done-fg:#2c1739;color-scheme:dark;background:radial-gradient(ellipse at 80% 0%,#73268c77,transparent 65%),#180925;--phone-top:#8246a1;--phone-mid:#70378f;--phone-low:#5e277e;--phone-end:#7a4098;--phone-ink:#fff5e9;--phone-edge:#c394de;--phone-base:#39154e;--phone-text-highlight:#00000066;}
+body.june header{border-bottom:4px solid #9aa96b;}body.july header{border-bottom:4px solid #368f95;}body.august header{border-bottom:4px solid #c883a9;}body.september header{border-bottom:4px solid #af7e38;}body.october header{border-bottom:4px solid #bd7846;}
+
 </style>
 </head>
 <body>
@@ -355,7 +364,7 @@ let student=null;
 
 function setSeason(){
  const m=Number(keys[index].slice(5));
- const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may"};
+ const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may",6:"june",7:"july",8:"august",9:"september",10:"october"};
  const season=monthlyThemes[m]||(m===11?"november":m===12||m<=2?"winter":
               m<=5?"spring":
               m<=8?"summer":"halloween");
@@ -411,7 +420,7 @@ function render(){
  const showNotice=ym<currentMonth&&
    balance!==null&&Number.isFinite(balance)&&balance>0;
 
- const isLight=/^(winter|spring|summer|december|march|april|may)$/.test(document.body.className);
+ const isLight=/^(winter|spring|summer|december|march|april|may|june|july|august|september)$/.test(document.body.className);
  const noticeColor=isLight?"#b4233b":"#ffb0bd";
 
  $("remaining").style.color=showNotice?noticeColor:"";
