@@ -116,6 +116,37 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin:23px 0}
  .day{min-height:40px}
  .done{height:30px;width:30px}
 }
+
+/* November: charcoal, candlelight, silver tracery. Scoped to the current Moscow month. */
+body.november{--fg:#eee9df;--muted:#bcbdb3;--card:#1b2221;--border:#62675f;--green:#ddbc87;--soft:#303b36;color-scheme:dark;background:radial-gradient(ellipse at 18% 4%,#51595155,transparent 42%),radial-gradient(ellipse at 85% 75%,#73534328,transparent 50%),#151c1c;background-attachment:fixed;isolation:isolate;}
+body.november::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221400%22%20height%3D%221100%22%20viewBox%3D%220%200%201400%201100%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23050909%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20stroke-width%3D%2270%22%20d%3D%22M1440%201130c-130-190-173-270-163-441s-44-228-131-380S1130%20133%201113-30%22%2F%3E%3Cpath%20stroke-width%3D%2222%22%20d%3D%22M1290%20790c-66-146-142-181-196-260s-102-56-152-154M1247%20591c50-140%2031-233%2088-326s21-157%2052-248M1172%20380c-67-27-137-29-179-86s-84-80-137-110M1140%20274c44-94%2051-151%2030-243M1218%20522c-5-104-69-151-64-227M1122%20562c-34-57-39-108-83-130M1331%20281c-12-62-57-87-60-161%22%2F%3E%3Cpath%20stroke-width%3D%227%22%20d%3D%22m994%20294-12-93-39-45m209%20137-39-44-6-42m-165%20168-25-59-62-28m472-54%2058-49%2014-80M1169%2066l70-72m-200%20438-65%2011-27-31M-70%201010c180-10%20233-94%20293-180s76-105%20151-119M147%20901l-11-89-42-44m128%2062%2056%2012%2040-31M62%20972l31-100%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");background-repeat:no-repeat;background-position:center right;background-size:cover;opacity:.8;}
+body.november main{position:relative;max-width:1000px;padding-top:42px;}
+body.november header,body.november .month,body.november .stat,body.november .calendar,body.november .payment,body.november .archive{background:linear-gradient(125deg,#29312df5,#1a211ff5 65%);border:1px solid #6a6c60;border-radius:8px;box-shadow:0 18px 40px #0005,inset 0 1px #e5ddc00b;}
+body.november header{position:relative;min-height:195px;padding:35px 34px;border:1px solid #929286;outline:1px solid #71766a77;outline-offset:-8px;overflow:hidden;background:radial-gradient(ellipse at 91% 50%,#bc7c4328,transparent 37%),linear-gradient(120deg,#303831,#1b2220 70%);}
+body.november header::before,body.november header::after{content:"◇";position:absolute;left:50%;transform:translateX(-50%);font-size:21px;line-height:20px;color:#b8b6a3;background:#252d28;padding:0 14px;}
+body.november header::before{top:0}body.november header::after{bottom:0}
+body.november h1,body.november h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:.015em;color:#f1e9d9;text-shadow:0 3px 12px #0006;}
+body.november h1{font-size:clamp(30px,5vw,47px);margin:14px 0 12px;}
+body.november .eyebrow{font-size:10px;font-weight:500;letter-spacing:2px;color:#c5c4b6;}
+body.november .symbol{width:85px;min-width:65px;height:112px;filter:drop-shadow(0 0 18px #d39a5744);font-size:0;}
+body.november .symbol svg{height:100%;width:100%;}
+body.november .status{border-radius:5px;background:#18201dd9;border-color:#454f47;color:#bdc3b6;margin:20px 0;}
+body.november .month{padding:20px 25px;margin-bottom:18px;}
+body.november .stat{padding:23px 18px;position:relative;}
+body.november .stat::before{content:"";position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,#c0b8a077,transparent);}
+body.november .value{font-family:Georgia,"Times New Roman",serif;letter-spacing:0;font-weight:400;}
+body.november .label{font-size:12px;line-height:1.5;}
+body.november .note{line-height:1.65;}
+body.november .arrows button,body.november .payment button,body.november .archive button{border-radius:5px;background:#303b33;color:#e8e5d7;border:1px solid #7c806d;box-shadow:0 4px 12px #0003;}
+body.november button:focus-visible,body.november select:focus-visible,body.november input:focus-visible{outline:2px solid #e2bd82;outline-offset:3px;}
+body.november .calendar{margin-top:18px;padding:27px;}
+body.november .week{color:#c4c6b8;border-color:#73796b66;}
+body.november .day{min-height:57px;color:#e6e6d8;}
+body.november .done{background:#c5b087;color:#17221b;border:1px solid #e7d9b5;box-shadow:0 0 16px #c4a27122;}
+body.november .payment,body.november .archive{margin-top:18px;}
+body.november footer{padding:12px;color:#b4b9ab;letter-spacing:.04em;}
+@media(max-width:620px){body.november main{padding:18px 12px;}body.november header{padding:26px 22px;min-height:165px;}body.november .symbol{width:58px;min-width:52px;height:88px;}body.november .stat{padding:20px 15px;}body.november .calendar{padding:22px 12px;}body.november .day{min-height:44px;}body.november .month{padding:18px;}body.november::before{opacity:.45;background-position:75% center;}}
+
 </style>
 </head>
 <body>
@@ -126,7 +157,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin:23px 0}
   <h1>Мой абонемент</h1>
   <small id="studentName">Загрузка данных…</small>
  </div>
- <div class="symbol" id="symbol">🎃</div>
+ <div class="symbol" id="symbol" aria-hidden="true"></div>
 </header>
 
 <div id="status" class="status" role="status">
@@ -176,7 +207,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin:23px 0}
   <span>ВС</span>
  </div>
  <div class="days" id="days"></div>
- <p class="note">Зелёные кружки — проведённые уроки.</p>
+ <p class="note">Отмеченные даты — проведённые уроки.</p>
 </section>
 
 <footer>Личный журнал занятий · Только просмотр</footer>
@@ -205,11 +236,12 @@ let index=Math.max(0,keys.indexOf(currentKey));
 let student=null;
 
 function setSeason(){
- const m=new Date().getMonth()+1;
- const season=m===12||m<=2?"winter":
+ const m=Number(new Intl.DateTimeFormat("en",{timeZone:"Europe/Moscow",month:"numeric"}).format(new Date()));
+ const season=m===11?"november":m===12||m<=2?"winter":
               m<=5?"spring":
               m<=8?"summer":"halloween";
  document.body.className=season;
+ if(season==="november"){$("symbol").innerHTML="<svg viewBox=\"0 0 100 124\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path d=\"M50 3C43 14 38 18 38 26a12 12 0 0 0 24 0C62 18 55 12 50 3Z\" fill=\"#d89a60\"/><path d=\"M50 13c-3 6-6 9-6 13a6 6 0 0 0 12 0c0-4-3-8-6-13Z\" fill=\"#ffe0a5\"/><path d=\"M39 45h22v52H39z\" fill=\"#b6aaa0\"/><path d=\"M39 45c4 9 4 19 8 19s2-13 6-13 3 4 8 2\" stroke=\"#e5d5bc\" stroke-width=\"3\"/><path d=\"M50 45v-8M25 99h50M34 104h32l6 9H28l6-9ZM21 118h58\" stroke=\"#d2c8b6\" stroke-width=\"2\"/><path d=\"M20 10 10 19v78l11 12M80 10l10 9v78l-11 12M28 5 50 0l22 5\" stroke=\"#9a9d95\" stroke-opacity=\".6\"/><path d=\"m13 37 5 6-5 6-5-6 5-6ZM87 37l5 6-5 6-5-6 5-6Z\" fill=\"#9a9d95\" fill-opacity=\".7\"/></svg>";$("symbol").setAttribute("aria-hidden","true");return;}
  $("symbol").textContent={
   halloween:"🎃",winter:"❄️",
   spring:"🌸",summer:"☀️"
@@ -413,3 +445,5 @@ setInterval(()=>{
 </script>
 </body>
 </html>
+
+
