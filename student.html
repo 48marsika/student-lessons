@@ -147,6 +147,25 @@ body.november .payment,body.november .archive{margin-top:18px;}
 body.november footer{padding:12px;color:#b4b9ab;letter-spacing:.04em;}
 @media(max-width:620px){body.november main{padding:18px 12px;}body.november header{padding:26px 22px;min-height:165px;}body.november .symbol{width:58px;min-width:52px;height:88px;}body.november .stat{padding:20px 15px;}body.november .calendar{padding:22px 12px;}body.november .day{min-height:44px;}body.november .month{padding:18px;}body.november::before{opacity:.45;background-position:75% center;}}
 
+
+.phone-payment{margin:18px 0;padding:27px;background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 15px 36px #0003;}
+.payment-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:17px;}
+.phone-payment h2{margin:5px 0 12px}.phone-payment p{line-height:1.6;}
+.bank-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 21px;}
+.bank-choice{display:flex;align-items:center;gap:11px;padding:15px 17px;color:var(--fg);font:600 16px "Segoe UI",Arial,sans-serif;text-align:left;background:var(--soft);border:1px solid var(--border);border-radius:11px;cursor:pointer;box-shadow:0 5px 0 #0003,0 9px 17px #0002;transition:transform .15s,box-shadow .15s;}
+.bank-choice[aria-pressed=true]{outline:2px solid #c9ad78;outline-offset:2px;box-shadow:0 3px 0 #0004,0 0 20px #c9ad7822;transform:translateY(2px);}
+.bank-choice .bank-mark{display:grid;place-items:center;flex:none;width:31px;height:31px;border-radius:9px;color:white;font-weight:800;font-size:22px;}
+.bank-choice[data-bank=sber] .bank-mark{background:linear-gradient(135deg,#76bd36,#168c48);}.bank-choice[data-bank=tbank] .bank-mark{background:#ffdd2d;color:#222;}
+.copy-phone{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;min-height:88px;padding:17px 12px;border:1px solid #c6bc9f;border-radius:12px;color:#292a24;background:linear-gradient(165deg,#f2e9cc 0%,#d3c4a2 43%,#b9a57e 46%,#e0ceaa 100%);box-shadow:inset 0 2px 1px #fff9,inset 0 -3px 2px #72633f66,0 7px 0 #645942,0 12px 23px #0006;cursor:pointer;transform:translateY(0);transition:transform .12s,box-shadow .12s;text-shadow:0 1px #fff9;}
+.copy-phone:hover{filter:brightness(1.06)}.copy-phone:active{transform:translateY(5px);box-shadow:inset 0 2px 5px #77674455,0 2px 0 #645942,0 6px 12px #0004;}
+.copy-phone .phone-number{font:700 clamp(22px,4vw,32px) Georgia,"Times New Roman",serif;letter-spacing:.03em;white-space:nowrap;text-shadow:0 1px 0 #fff,0 -1px 0 #88765066,0 2px 2px #75684a33;}
+.copy-phone svg{width:22px;height:22px;flex:none;}.copy-caption{text-align:center;margin:15px 0 5px;font-size:12px;color:var(--muted);min-height:20px;}
+.payment-steps{margin:16px 0 0;color:var(--muted);font-size:13px;}.payment-quote{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 19px;}.payment-quote input{width:72px;padding:9px;font:inherit;border-radius:7px;border:1px solid var(--border);color:var(--fg);background:var(--soft);}.payment-quote strong{font-size:19px;}
+.phone-payment button:focus-visible,.phone-payment input:focus-visible{outline:3px solid #e2bd82;outline-offset:4px;}
+body.november .phone-payment{background:linear-gradient(125deg,#29312df5,#1a211ff5 65%);border-color:#6a6c60;border-radius:8px;box-shadow:0 18px 40px #0005,inset 0 1px #e5ddc00b;}
+@media(max-width:620px){.phone-payment{padding:23px 16px}.bank-choice{font-size:14px;padding:12px 10px;gap:8px}.bank-options{gap:10px}.copy-phone{gap:8px}.copy-phone .phone-number{font-size:23px;letter-spacing:0}.copy-phone svg{width:20px}.payment-steps{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.copy-phone,.bank-choice{transition:none}}
+
 </style>
 </head>
 <body>
@@ -196,6 +215,22 @@ body.november footer{padding:12px;color:#b4b9ab;letter-spacing:.04em;}
   <div class="value" id="minutes">—</div>
   <div class="note">минут</div>
  </div>
+</section>
+
+
+<section class="phone-payment" id="phonePayment" aria-labelledby="phonePayTitle" hidden>
+ <div class="eyebrow">Пополнить абонемент</div><h2 id="phonePayTitle">Оплатить занятия</h2>
+ <p class="note" id="phoneTerms"></p>
+ <div class="payment-quote"><label for="phoneQuantity">Уроков <input id="phoneQuantity" type="number" min="1" max="100" step="1" value="4"></label><span>К оплате: <strong id="phoneAmount">—</strong></span></div>
+ <p class="label">Выберите банк получателя</p>
+ <div class="bank-options" role="group" aria-label="Банк получателя">
+  <button class="bank-choice" type="button" data-bank="sber" aria-pressed="false"><span class="bank-mark" aria-hidden="true">С</span>Сбер</button>
+  <button class="bank-choice" type="button" data-bank="tbank" aria-pressed="false"><span class="bank-mark" aria-hidden="true">Т</span>Т-Банк</button>
+ </div>
+ <button type="button" class="copy-phone" id="copyPhone" aria-label="Скопировать номер телефона +7 910 254 19 08"><span class="phone-number">+7 910 254-19-08</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>
+ <div class="copy-caption" id="phoneCopyStatus" role="status" aria-live="polite">Нажмите на номер, чтобы скопировать</div>
+ <p class="payment-steps" id="bankInstructions">Откройте приложение своего банка, выберите перевод по номеру телефона, вставьте номер и укажите выбранный банк получателя.</p>
+ <p class="note">Перед переводом проверьте получателя и сумму. После поступления денег преподаватель подтвердит оплату.</p>
 </section>
 
 <section class="calendar">
@@ -308,6 +343,7 @@ function render(){
  $("price").textContent=format(student.price);
  $("minutes").textContent=format(student.minutes);
 
+ renderPhonePayment();
  $("prev").disabled=index===0;
  $("next").disabled=index===14;
 
@@ -336,6 +372,31 @@ function render(){
   grid.append(day);
  }
 }
+
+
+function renderPhonePayment(){
+ if(!student)return;
+ $("phonePayment").hidden=false;
+ const qty=Number($("phoneQuantity").value),price=Number(student.price),minutes=Number(student.minutes);
+ $("phoneTerms").textContent="Новые занятия: "+format(student.minutes)+" мин · "+format(student.price)+" ₽ за урок.";
+ const valid=Number.isInteger(qty)&&qty>0&&qty<=100&&Number.isFinite(price)&&price>0&&Number.isFinite(minutes)&&minutes>0;
+ $("phoneAmount").textContent=valid?format(Math.round(qty*price*100)/100)+" ₽":"Уточните количество и тариф";
+}
+$("phoneQuantity").addEventListener("input",renderPhonePayment);
+document.querySelectorAll(".bank-choice").forEach(button=>button.addEventListener("click",()=>{
+ document.querySelectorAll(".bank-choice").forEach(other=>other.setAttribute("aria-pressed",String(other===button)));
+ const bank=button.dataset.bank==="sber"?"Сбер":"Т-Банк";
+ $("bankInstructions").textContent="Банк получателя: "+bank+". Скопируйте номер, откройте приложение своего банка и выберите перевод по номеру телефона. При переводе укажите "+bank+".";
+}));
+$("copyPhone").addEventListener("click",async()=>{
+ const phone="+79102541908";let copied=false;
+ try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(phone);copied=true;}}catch{}
+ if(!copied){
+  const field=document.createElement("textarea");field.value=phone;field.setAttribute("readonly","");field.style.cssText="position:fixed;left:-9999px;top:0";document.body.append(field);field.select();field.setSelectionRange(0,phone.length);
+  try{copied=document.execCommand("copy");}catch{}finally{field.remove();$("copyPhone").focus({preventScroll:true});}
+ }
+ $("phoneCopyStatus").textContent=copied?"Номер скопирован: +7 910 254-19-08":"Не удалось скопировать. Скопируйте вручную: +79102541908";
+});
 
 function b64url(str){
  if(!/^[A-Za-z0-9_-]+$/.test(str||""))
@@ -445,5 +506,7 @@ setInterval(()=>{
 </script>
 </body>
 </html>
+
+
 
 
