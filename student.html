@@ -166,11 +166,48 @@ body.november .phone-payment{background:linear-gradient(125deg,#29312df5,#1a211f
 @media(max-width:620px){.phone-payment{padding:23px 16px}.bank-choice{font-size:14px;padding:12px 10px;gap:8px}.bank-options{gap:10px}.copy-phone{gap:8px}.copy-phone .phone-number{font-size:23px;letter-spacing:0}.copy-phone svg{width:20px}.payment-steps{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.copy-phone,.bank-choice{transition:none}}
 
+
+/* Six illustrated monthly themes, selected by today's Moscow date. */
+.season-picture{display:none;}
+body.december{--fg:#30282a;--muted:#685b5d;--card:#fff8ed;--border:#cfbaa2;--green:#a72b29;--soft:#f0e3d1;--hero:#15213a;--hero-fg:#fff4dc;--done-fg:#fff;--page:#15213a;color-scheme:light;background:radial-gradient(ellipse at 15% 0%,#384662,transparent 60%),#15213a;}
+body.january{--fg:#f6ecda;--muted:#c4cedd;--card:#172941;--border:#5d718f;--green:#f3cd82;--soft:#293e59;--hero:#0e203c;--hero-fg:#fff2d1;--done-fg:#1b2b40;--page:#0c182d;color-scheme:dark;background:radial-gradient(ellipse at 85% 5%,#294c77,transparent 60%),#0c182d;}
+body.february{--fg:#f0e8df;--muted:#c4b8ac;--card:#2c2928;--border:#76645b;--green:#e8b076;--soft:#453832;--hero:#242425;--hero-fg:#f1e5d8;--done-fg:#2c231d;--page:#202122;color-scheme:dark;background:radial-gradient(ellipse at 80% 2%,#75443366,transparent 55%),#202122;}
+body.march{--fg:#533e3b;--muted:#79615e;--card:#fffaf4;--border:#d7bfb2;--green:#a94b59;--soft:#f6e5dc;--hero:#fff5e8;--hero-fg:#583c37;--done-fg:#fff;--page:#f5e9dd;color-scheme:light;background:radial-gradient(ellipse at 10% 0%,#d7edf2,transparent 55%),#f5e9dd;}
+body.april{--fg:#493a54;--muted:#73617c;--card:#fff9ff;--border:#d0bad6;--green:#79508d;--soft:#eee1f3;--hero:#f4e8f2;--hero-fg:#533a60;--done-fg:#fff;--page:#e7dbea;color-scheme:light;background:radial-gradient(ellipse at 90% 0%,#ffd9bc,transparent 55%),#e7dbea;}
+body.may{--fg:#264b63;--muted:#516d7d;--card:#f7fcff;--border:#b3cfdf;--green:#a13d75;--soft:#e2f0f9;--hero:#eaf6fb;--hero-fg:#244b66;--done-fg:#fff;--page:#d8eaf3;color-scheme:light;background:radial-gradient(ellipse at 80% 0%,#f5dce9,transparent 55%),#d8eaf3;}
+body[data-month-art]{background-attachment:fixed;}
+body[data-month-art] main{max-width:1080px;padding-top:32px;}
+body[data-month-art] header{display:grid;grid-template-columns:1fr 1.25fr;gap:0;padding:0;overflow:hidden;min-height:0;background:var(--hero);border-radius:14px;border:1px solid var(--border);box-shadow:0 18px 45px #0003;}
+body[data-month-art] .season-picture{display:block;grid-column:2;grid-row:1;align-self:stretch;}
+body[data-month-art] .season-picture img{display:block;width:100%;height:100%;aspect-ratio:3/2;object-fit:cover;}
+body[data-month-art] header>div:not(.season-picture):not(.symbol){grid-column:1;grid-row:1;padding:34px 30px;min-width:0;}
+body[data-month-art] header h1{color:var(--hero-fg);font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(29px,4vw,43px);line-height:1.12;margin:18px 0;}
+body[data-month-art] header .eyebrow,body[data-month-art] header small{color:var(--hero-fg);opacity:.86;}
+body[data-month-art] header .symbol{display:none;}
+body[data-month-art] h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;}
+body[data-month-art] .month,body[data-month-art] .stat,body[data-month-art] .calendar,body[data-month-art] .phone-payment,body[data-month-art] .archive{border-radius:12px;box-shadow:0 9px 22px #00000012;}
+body[data-month-art] .stat{border-top:3px solid var(--green);}
+body[data-month-art] .value{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:0;}
+body[data-month-art] .done{background:var(--green);color:var(--done-fg);box-shadow:0 3px 9px #0002;}
+body[data-month-art] .note{line-height:1.6;}
+body[data-month-art] .bank-choice[aria-pressed=true]{outline-color:var(--green);}
+body[data-month-art] footer{color:var(--muted);}
+body.december footer{color:#d8d0c3;}
+body[data-month-art] :is(button,input,select):focus-visible{outline:3px solid var(--green);outline-offset:3px;}
+body.december header{border-bottom:5px solid #a72b29;}
+body.january header{border-bottom:4px solid #d7ac60;}
+body.february header{border-bottom:4px solid #8d5342;}
+body.march header{border-bottom:4px solid #d89b9b;}
+body.april header{border-bottom:4px solid #a487ba;}
+body.may header{border-bottom:4px solid #d78ab5;}
+@media(max-width:620px){body[data-month-art] main{padding:16px 12px;}body[data-month-art] header{grid-template-columns:1fr;}body[data-month-art] .season-picture{grid-column:1;grid-row:1;}body[data-month-art] .season-picture img{height:auto;aspect-ratio:3/2;}body[data-month-art] header>div:not(.season-picture):not(.symbol){grid-column:1;grid-row:2;padding:23px 22px;}body[data-month-art] header h1{font-size:34px;margin:12px 0;}body[data-month-art] .calendar{padding:22px 12px;}}
+
 </style>
 </head>
 <body>
 <main>
 <header>
+ <div class="season-picture" id="seasonPicture" hidden aria-hidden="true"><img id="seasonImage" alt="" width="1536" height="1024" decoding="async"></div>
  <div>
   <div class="eyebrow">Личный кабинет ученика</div>
   <h1>Мой абонемент</h1>
@@ -272,15 +309,20 @@ let student=null;
 
 function setSeason(){
  const m=Number(new Intl.DateTimeFormat("en",{timeZone:"Europe/Moscow",month:"numeric"}).format(new Date()));
- const season=m===11?"november":m===12||m<=2?"winter":
+ const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may"};
+ const season=monthlyThemes[m]||(m===11?"november":m===12||m<=2?"winter":
               m<=5?"spring":
-              m<=8?"summer":"halloween";
+              m<=8?"summer":"halloween");
  document.body.className=season;
+ const illustrated=Object.values(monthlyThemes).includes(season);
+ $("seasonPicture").hidden=!illustrated;
+ if(illustrated){document.body.dataset.monthArt=season;const path="./assets/monthly/"+season+".webp";if($("seasonImage").getAttribute("src")!==path)$("seasonImage").src=path;}
+ else{delete document.body.dataset.monthArt;$("seasonImage").removeAttribute("src");}
  if(season==="november"){$("symbol").innerHTML="<svg viewBox=\"0 0 100 124\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path d=\"M50 3C43 14 38 18 38 26a12 12 0 0 0 24 0C62 18 55 12 50 3Z\" fill=\"#d89a60\"/><path d=\"M50 13c-3 6-6 9-6 13a6 6 0 0 0 12 0c0-4-3-8-6-13Z\" fill=\"#ffe0a5\"/><path d=\"M39 45h22v52H39z\" fill=\"#b6aaa0\"/><path d=\"M39 45c4 9 4 19 8 19s2-13 6-13 3 4 8 2\" stroke=\"#e5d5bc\" stroke-width=\"3\"/><path d=\"M50 45v-8M25 99h50M34 104h32l6 9H28l6-9ZM21 118h58\" stroke=\"#d2c8b6\" stroke-width=\"2\"/><path d=\"M20 10 10 19v78l11 12M80 10l10 9v78l-11 12M28 5 50 0l22 5\" stroke=\"#9a9d95\" stroke-opacity=\".6\"/><path d=\"m13 37 5 6-5 6-5-6 5-6ZM87 37l5 6-5 6-5-6 5-6Z\" fill=\"#9a9d95\" fill-opacity=\".7\"/></svg>";$("symbol").setAttribute("aria-hidden","true");return;}
  $("symbol").textContent={
   halloween:"🎃",winter:"❄️",
   spring:"🌸",summer:"☀️"
- }[season];
+ }[season]||"";
 }
 
 function format(value){
@@ -322,7 +364,7 @@ function render(){
  const showNotice=ym<currentMonth&&
    balance!==null&&Number.isFinite(balance)&&balance>0;
 
- const isLight=/^(winter|spring|summer)$/.test(document.body.className);
+ const isLight=/^(winter|spring|summer|december|march|april|may)$/.test(document.body.className);
  const noticeColor=isLight?"#b4233b":"#ffb0bd";
 
  $("remaining").style.color=showNotice?noticeColor:"";
@@ -506,7 +548,4 @@ setInterval(()=>{
 </script>
 </body>
 </html>
-
-
-
 
