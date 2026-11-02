@@ -202,6 +202,31 @@ body.april header{border-bottom:4px solid #a487ba;}
 body.may header{border-bottom:4px solid #d78ab5;}
 @media(max-width:620px){body[data-month-art] main{padding:16px 12px;}body[data-month-art] header{grid-template-columns:1fr;}body[data-month-art] .season-picture{grid-column:1;grid-row:1;}body[data-month-art] .season-picture img{height:auto;aspect-ratio:3/2;}body[data-month-art] header>div:not(.season-picture):not(.symbol){grid-column:1;grid-row:2;padding:23px 22px;}body[data-month-art] header h1{font-size:34px;margin:12px 0;}body[data-month-art] .calendar{padding:22px 12px;}}
 
+
+/* Compact payment: calculation on the left, bank icons and phone on the right. */
+.phone-payment{padding:22px 24px;}
+.payment-layout{display:grid;grid-template-columns:minmax(230px,.85fr) minmax(300px,1.15fr);gap:18px 32px;align-items:center;}
+.payment-summary{align-self:start;padding-top:4px;}
+.payment-summary .eyebrow{font-size:10px;letter-spacing:1.3px;}
+.payment-summary h2{font-size:25px;margin:6px 0 12px;}
+.payment-summary #phoneTerms{font-size:11px;margin:0 0 13px;}
+.payment-summary .payment-quote{gap:10px;margin:0;font-size:13px;}
+.payment-summary .payment-quote label{display:flex;align-items:center;gap:7px;}
+.payment-summary .payment-quote input{width:57px;padding:6px;}
+.payment-summary .payment-quote strong{font-size:18px;}
+.payment-transfer{width:100%;max-width:470px;justify-self:center;text-align:center;}
+.payment-transfer .bank-options{display:flex;justify-content:center;gap:12px;margin:0 0 12px;}
+.payment-transfer .bank-choice{display:grid;place-items:center;padding:0;width:43px;height:43px;border:1px solid var(--border);border-radius:11px;background:var(--soft);box-shadow:0 3px 0 #0003,0 5px 12px #0002;}
+.payment-transfer .bank-mark{width:31px;height:31px;font-size:23px;border-radius:8px;}
+.payment-transfer .copy-phone{min-height:58px;padding:10px 12px;gap:11px;box-shadow:inset 0 2px 1px #fff9,inset 0 -2px 2px #72633f66,0 5px 0 #645942,0 9px 17px #0004;}
+.payment-transfer .copy-phone .phone-number{font-size:clamp(21px,2.7vw,28px);}
+.payment-transfer .copy-phone svg{width:19px;height:19px;}
+.payment-transfer .copy-caption{margin:10px 0 4px;font-size:11px;min-height:16px;line-height:1.4;}
+.payment-transfer .payment-steps{font-size:11px;line-height:1.5;margin:8px 0 0;}
+.payment-transfer .payment-confirmation{font-size:10px;margin:6px 0 0;line-height:1.45;color:var(--muted);}
+@media(max-width:760px){.phone-payment{padding:19px 18px;}.payment-layout{grid-template-columns:1fr;gap:17px;}.payment-summary h2{margin-bottom:8px;}.payment-summary #phoneTerms{margin-bottom:10px;}.payment-transfer{max-width:460px;}.payment-transfer .bank-options{margin-bottom:10px;}.payment-transfer .copy-phone .phone-number{font-size:25px;}}
+@media(max-width:360px){.payment-transfer .copy-phone .phone-number{font-size:22px;}.payment-transfer .copy-phone{gap:7px;}}
+
 </style>
 </head>
 <body>
@@ -256,18 +281,19 @@ body.may header{border-bottom:4px solid #d78ab5;}
 
 
 <section class="phone-payment" id="phonePayment" aria-labelledby="phonePayTitle" hidden>
- <div class="eyebrow">Пополнить абонемент</div><h2 id="phonePayTitle">Оплатить занятия</h2>
- <p class="note" id="phoneTerms"></p>
- <div class="payment-quote"><label for="phoneQuantity">Уроков <input id="phoneQuantity" type="number" min="1" max="100" step="1" value="4"></label><span>К оплате: <strong id="phoneAmount">—</strong></span></div>
- <p class="label">Выберите банк получателя</p>
- <div class="bank-options" role="group" aria-label="Банк получателя">
-  <button class="bank-choice" type="button" data-bank="sber" aria-pressed="false"><span class="bank-mark" aria-hidden="true">С</span>Сбер</button>
-  <button class="bank-choice" type="button" data-bank="tbank" aria-pressed="false"><span class="bank-mark" aria-hidden="true">Т</span>Т-Банк</button>
+ <div class="payment-layout">
+  <div class="payment-summary"><div class="eyebrow">Пополнить абонемент</div><h2 id="phonePayTitle">Оплатить занятия</h2><p class="note" id="phoneTerms"></p><div class="payment-quote"><label for="phoneQuantity">Уроков <input id="phoneQuantity" type="number" min="1" max="100" step="1" value="4"></label><span>К оплате: <strong id="phoneAmount">—</strong></span></div></div>
+  <div class="payment-transfer">
+   <div class="bank-options" role="group" aria-label="Выберите банк получателя">
+    <button class="bank-choice" type="button" data-bank="sber" aria-pressed="false" aria-label="Сбер" title="Сбер"><span class="bank-mark" aria-hidden="true">С</span></button>
+    <button class="bank-choice" type="button" data-bank="tbank" aria-pressed="false" aria-label="Т-Банк" title="Т-Банк"><span class="bank-mark" aria-hidden="true">Т</span></button>
+   </div>
+   <button type="button" class="copy-phone" id="copyPhone" aria-label="Скопировать номер телефона +7 910 254 19 08"><span class="phone-number">+7 910 254-19-08</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>
+   <div class="copy-caption" id="phoneCopyStatus" role="status" aria-live="polite">Нажмите на номер, чтобы скопировать</div>
+   <p class="payment-steps" id="bankInstructions">Выберите банк получателя, скопируйте номер и переведите нужную сумму в приложении своего банка.</p>
+   <p class="payment-confirmation">Оплата зачисляется после подтверждения преподавателем.</p>
+  </div>
  </div>
- <button type="button" class="copy-phone" id="copyPhone" aria-label="Скопировать номер телефона +7 910 254 19 08"><span class="phone-number">+7 910 254-19-08</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>
- <div class="copy-caption" id="phoneCopyStatus" role="status" aria-live="polite">Нажмите на номер, чтобы скопировать</div>
- <p class="payment-steps" id="bankInstructions">Откройте приложение своего банка, выберите перевод по номеру телефона, вставьте номер и укажите выбранный банк получателя.</p>
- <p class="note">Перед переводом проверьте получателя и сумму. После поступления денег преподаватель подтвердит оплату.</p>
 </section>
 
 <section class="calendar">
@@ -428,7 +454,7 @@ $("phoneQuantity").addEventListener("input",renderPhonePayment);
 document.querySelectorAll(".bank-choice").forEach(button=>button.addEventListener("click",()=>{
  document.querySelectorAll(".bank-choice").forEach(other=>other.setAttribute("aria-pressed",String(other===button)));
  const bank=button.dataset.bank==="sber"?"Сбер":"Т-Банк";
- $("bankInstructions").textContent="Банк получателя: "+bank+". Скопируйте номер, откройте приложение своего банка и выберите перевод по номеру телефона. При переводе укажите "+bank+".";
+ $("bankInstructions").textContent="Банк получателя: "+bank+". Скопируйте номер и выполните перевод в приложении своего банка. Проверьте получателя и сумму.";
 }));
 $("copyPhone").addEventListener("click",async()=>{
  const phone="+79102541908";let copied=false;
