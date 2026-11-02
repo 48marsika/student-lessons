@@ -227,6 +227,26 @@ body.may header{border-bottom:4px solid #d78ab5;}
 @media(max-width:760px){.phone-payment{padding:19px 18px;}.payment-layout{grid-template-columns:1fr;gap:17px;}.payment-summary h2{margin-bottom:8px;}.payment-summary #phoneTerms{margin-bottom:10px;}.payment-transfer{max-width:460px;}.payment-transfer .bank-options{margin-bottom:10px;}.payment-transfer .copy-phone .phone-number{font-size:25px;}}
 @media(max-width:360px){.payment-transfer .copy-phone .phone-number{font-size:22px;}.payment-transfer .copy-phone{gap:7px;}}
 
+
+/* Phone button palette follows the displayed month's theme. */
+body{--phone-top:#e6d5ef;--phone-mid:#d5b8e0;--phone-low:#bca0ce;--phone-end:#dfc7e9;--phone-ink:#382246;--phone-edge:#a78bb9;--phone-base:#705c80;--phone-text-highlight:#ffffff88;}
+body.november{--phone-top:#f2e9cc;--phone-mid:#d3c4a2;--phone-low:#b9a57e;--phone-end:#e0ceaa;--phone-ink:#292a24;--phone-edge:#c6bc9f;--phone-base:#645942;}
+body.december{--phone-top:#b72b35;--phone-mid:#a9222d;--phone-low:#8d1826;--phone-end:#b42b35;--phone-ink:#fffaf3;--phone-edge:#edb6ae;--phone-base:#63151e;--phone-text-highlight:#00000066;}
+body.january{--phone-top:#345c87;--phone-mid:#254975;--phone-low:#1c3962;--phone-end:#315681;--phone-ink:#fff5de;--phone-edge:#a8c1df;--phone-base:#10223b;--phone-text-highlight:#00000077;}
+body.february{--phone-top:#e4bc98;--phone-mid:#cda07d;--phone-low:#b58a6b;--phone-end:#d8ad88;--phone-ink:#30231b;--phone-edge:#d8b898;--phone-base:#6d4b38;}
+body.march{--phone-top:#f9e1de;--phone-mid:#edc8c5;--phone-low:#d7aaa9;--phone-end:#f1d0ca;--phone-ink:#542f36;--phone-edge:#c49496;--phone-base:#9b6c72;}
+body.april{--phone-top:#e9e0f5;--phone-mid:#d8c7ea;--phone-low:#bda8d5;--phone-end:#ddcdef;--phone-ink:#432d57;--phone-edge:#ac91c4;--phone-base:#7a5d95;}
+body.may{--phone-top:#e4f4fc;--phone-mid:#bfdded;--phone-low:#9fc5dc;--phone-end:#c9e4f2;--phone-ink:#24455d;--phone-edge:#8db6cf;--phone-base:#577e99;}
+body.summer,body.spring{--phone-top:#e3f4e8;--phone-mid:#c0dfd0;--phone-low:#9dc5b2;--phone-end:#cce8d9;--phone-ink:#254238;--phone-edge:#89b6a0;--phone-base:#547d68;}
+body.winter{--phone-top:#f1f7ff;--phone-mid:#d7e6f7;--phone-low:#b6cde6;--phone-end:#dfecfa;--phone-ink:#243f5b;--phone-edge:#a1bad6;--phone-base:#607b9b;}
+.payment-transfer .copy-phone{background:linear-gradient(165deg,var(--phone-top) 0%,var(--phone-mid) 43%,var(--phone-low) 46%,var(--phone-end) 100%);color:var(--phone-ink);border-color:var(--phone-edge);box-shadow:inset 0 2px 1px #ffffff66,inset 0 -2px 2px #00000022,0 5px 0 var(--phone-base),0 9px 17px #0004;text-shadow:none;}
+.payment-transfer .copy-phone .phone-number{color:var(--phone-ink);text-shadow:0 1px 0 var(--phone-text-highlight),0 2px 2px #00000018;}
+.payment-transfer .copy-phone:active{box-shadow:inset 0 2px 5px #00000022,0 1px 0 var(--phone-base),0 4px 10px #0003;}
+.arrows button,.bank-choice{color:var(--fg);background:var(--soft);}
+.bank-choice[data-bank=sber] .bank-mark{background:linear-gradient(135deg,#29823a,#16723a);color:#fff;}
+.bank-choice[data-bank=tbank] .bank-mark{background:#ffdd2d;color:#222;}
+.phone-payment button:focus-visible,.phone-payment input:focus-visible,.arrows button:focus-visible{outline:3px solid var(--green);outline-offset:4px;}
+
 </style>
 </head>
 <body>
@@ -334,7 +354,7 @@ let index=Math.max(0,keys.indexOf(currentKey));
 let student=null;
 
 function setSeason(){
- const m=Number(new Intl.DateTimeFormat("en",{timeZone:"Europe/Moscow",month:"numeric"}).format(new Date()));
+ const m=Number(keys[index].slice(5));
  const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may"};
  const season=monthlyThemes[m]||(m===11?"november":m===12||m<=2?"winter":
               m<=5?"spring":
@@ -358,6 +378,7 @@ function format(value){
 
 function render(){
  if(!student)return;
+ setSeason();
 
  const ym=keys[index];
  const year=Number(ym.slice(0,4));
