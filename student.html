@@ -402,6 +402,33 @@ function format(value){
  "—":Number(value).toLocaleString("ru-RU");
 }
 
+// subscription contains only newly purchased lessons entered by the teacher.
+// Rebuild the signed ledger on every render; never write carryover into months.
+function monthlyBalance(months,ym){
+ const records=new Map();
+ for(const record of months){
+  if(/^\d{4}-(0[1-9]|1[0-2])$/.test(record.ym)&&!records.has(record.ym))
+   records.set(record.ym,record);
+ }
+ let balance=0,known=false,carried=0;
+ for(const key of [...new Set([...records.keys(),ym])].sort()){
+  if(key>ym)break;
+  if(key===ym)carried=balance;
+  const record=records.get(key);
+  if(!record)continue;
+  const subscription=record.subscription;
+  if(subscription!==null&&subscription!==undefined&&subscription!==""&&
+     Number.isFinite(Number(subscription))){
+   balance+=Number(subscription);
+   known=true;
+  }
+  const completed=new Set(record.dates||[]).size;
+  if(completed)known=true;
+  balance-=completed;
+ }
+ return {carried,remaining:known?balance:null};
+}
+
 function render(){
  if(!student)return;
  setSeason();
@@ -421,21 +448,17 @@ function render(){
  $("studentName").textContent=student.name||"Ученик";
 
  $("subscription").textContent=format(record.subscription);
- $("remaining").textContent=record.subscription==null?
- "—":format(Number(record.subscription)-completed.size);
+ const {carried,remaining}=monthlyBalance(student.months,ym);
+ $("remaining").textContent=format(remaining);
 
  $("completed").textContent="Проведено: "+completed.size;
  
- // Визуальная пометка без автоматического переноса
- const balance=record.subscription==null
-   ?null:Number(record.subscription)-completed.size;
-
+ // Show incoming lessons even when this month's new subscription is blank.
  const now=new Date();
  const currentMonth=now.getFullYear()+"-"+
    String(now.getMonth()+1).padStart(2,"0");
-
- const showNotice=ym<currentMonth&&
-   balance!==null&&Number.isFinite(balance)&&balance>0;
+ const outgoing=ym<currentMonth&&remaining!==null&&remaining>0;
+ const showNotice=carried!==0||outgoing;
 
  const isLight=/^(winter|spring|summer|december|march|april|may|june|july|august|september|november)$/.test(document.body.className);
  const noticeColor=isLight?"#b4233b":"#ffb0bd";
@@ -451,7 +474,11 @@ function render(){
    $("completed").insertAdjacentElement("afterend",notice);
  }
 
- notice.textContent="Перенесены в новый месяц";
+ const notes=[];
+ if(carried>0)notes.push("Перенесено из прошлого месяца: "+format(carried)+" ур.");
+ if(carried<0)notes.push("Долг с прошлого месяца: "+format(-carried)+" ур.");
+ if(outgoing)notes.push("Перенесены в следующий месяц: "+format(remaining)+" ур.");
+ notice.textContent=notes.join(" · ");
  notice.style.color=noticeColor;
  notice.hidden=!showNotice;
 
