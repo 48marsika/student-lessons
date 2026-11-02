@@ -256,6 +256,24 @@ body.september{--fg:#4c402d;--muted:#716044;--card:#fff7e8;--border:#c9b48f;--gr
 body.october{--fg:#f8eafa;--muted:#d6c2df;--card:#2b1539;--border:#9067a2;--green:#f4b37b;--soft:#452356;--hero:#241033;--hero-fg:#fff0dc;--done-fg:#2c1739;color-scheme:dark;background:radial-gradient(ellipse at 80% 0%,#73268c77,transparent 65%),#180925;--phone-top:#8246a1;--phone-mid:#70378f;--phone-low:#5e277e;--phone-end:#7a4098;--phone-ink:#fff5e9;--phone-edge:#c394de;--phone-base:#39154e;--phone-text-highlight:#00000066;}
 body.june header{border-bottom:4px solid #9aa96b;}body.july header{border-bottom:4px solid #368f95;}body.august header{border-bottom:4px solid #c883a9;}body.september header{border-bottom:4px solid #af7e38;}body.october header{border-bottom:4px solid #bd7846;}
 
+
+/* November fog: silver mist, bare trees and slate-blue controls. */
+body.november{--fg:#293e46;--muted:#536b74;--card:#e9eff1;--border:#a1b2bb;--green:#355e6c;--soft:#d3dfe4;--hero:#dfe7ea;--hero-fg:#293e46;--done-fg:#fff;--phone-top:#e7f0f3;--phone-mid:#c8d8df;--phone-low:#a8bdc7;--phone-end:#d5e3e8;--phone-ink:#29434f;--phone-edge:#92aab5;--phone-base:#5e7c8a;--phone-text-highlight:#ffffff88;color-scheme:light;background:radial-gradient(ellipse at 15% 0%,#f5f8f9,transparent 65%),#c1cdd2;}
+body.november::before,body.november header::before,body.november header::after{display:none;}
+body.november header{background:var(--hero);outline:0;min-height:0;padding:0;border-radius:14px;border:1px solid var(--border);border-bottom:4px solid #7e9ba7;box-shadow:0 18px 40px #263f4b22;}
+body.november :is(.month,.stat,.calendar,.phone-payment,.archive){background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 9px 22px #243c4712;}
+body.november .stat{border-top:3px solid var(--green);}
+body.november .stat::before{display:none;}
+body.november .status{background:var(--card);border-color:var(--border);color:var(--muted);}
+body.november :is(.arrows button,.bank-choice,.archive button){background:var(--soft);color:var(--fg);border-color:var(--border);}
+body.november .week{color:var(--muted);border-color:var(--border);}
+body.november .day{color:var(--fg);}
+body.november .done{background:var(--green);color:#fff;border-color:#355e6c;box-shadow:0 3px 9px #263e4922;}
+body.november footer{color:var(--muted);}
+/* Fog text contrast */
+body.november h1,body.november h2{color:var(--fg);text-shadow:none;}
+body.november .eyebrow{color:var(--muted);}
+
 </style>
 </head>
 <body>
@@ -364,7 +382,7 @@ let student=null;
 
 function setSeason(){
  const m=Number(keys[index].slice(5));
- const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may",6:"june",7:"july",8:"august",9:"september",10:"october"};
+ const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may",6:"june",7:"july",8:"august",9:"september",10:"october",11:"november"};
  const season=monthlyThemes[m]||(m===11?"november":m===12||m<=2?"winter":
               m<=5?"spring":
               m<=8?"summer":"halloween");
@@ -373,7 +391,6 @@ function setSeason(){
  $("seasonPicture").hidden=!illustrated;
  if(illustrated){document.body.dataset.monthArt=season;const path="./assets/monthly/"+season+".webp";if($("seasonImage").getAttribute("src")!==path)$("seasonImage").src=path;}
  else{delete document.body.dataset.monthArt;$("seasonImage").removeAttribute("src");}
- if(season==="november"){$("symbol").innerHTML="<svg viewBox=\"0 0 100 124\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path d=\"M50 3C43 14 38 18 38 26a12 12 0 0 0 24 0C62 18 55 12 50 3Z\" fill=\"#d89a60\"/><path d=\"M50 13c-3 6-6 9-6 13a6 6 0 0 0 12 0c0-4-3-8-6-13Z\" fill=\"#ffe0a5\"/><path d=\"M39 45h22v52H39z\" fill=\"#b6aaa0\"/><path d=\"M39 45c4 9 4 19 8 19s2-13 6-13 3 4 8 2\" stroke=\"#e5d5bc\" stroke-width=\"3\"/><path d=\"M50 45v-8M25 99h50M34 104h32l6 9H28l6-9ZM21 118h58\" stroke=\"#d2c8b6\" stroke-width=\"2\"/><path d=\"M20 10 10 19v78l11 12M80 10l10 9v78l-11 12M28 5 50 0l22 5\" stroke=\"#9a9d95\" stroke-opacity=\".6\"/><path d=\"m13 37 5 6-5 6-5-6 5-6ZM87 37l5 6-5 6-5-6 5-6Z\" fill=\"#9a9d95\" fill-opacity=\".7\"/></svg>";$("symbol").setAttribute("aria-hidden","true");return;}
  $("symbol").textContent={
   halloween:"🎃",winter:"❄️",
   spring:"🌸",summer:"☀️"
@@ -420,7 +437,7 @@ function render(){
  const showNotice=ym<currentMonth&&
    balance!==null&&Number.isFinite(balance)&&balance>0;
 
- const isLight=/^(winter|spring|summer|december|march|april|may|june|july|august|september)$/.test(document.body.className);
+ const isLight=/^(winter|spring|summer|december|march|april|may|june|july|august|september|november)$/.test(document.body.className);
  const noticeColor=isLight?"#b4233b":"#ffb0bd";
 
  $("remaining").style.color=showNotice?noticeColor:"";
