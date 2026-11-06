@@ -477,7 +477,7 @@ function render(){
  const isLight=/^(winter|spring|summer|december|march|april|may|june|july|august|september|november)$/.test(document.body.className);
  const noticeColor=isLight?"#b4233b":"#ffb0bd";
 
- $("remaining").style.color=showNotice?noticeColor:"";
+ $("remaining").style.color=remaining!==null&&remaining<=0?noticeColor:"";
 
  let notice=$("carryoverNotice");
 
