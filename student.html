@@ -285,12 +285,22 @@ body header .month.banner-month .arrows button:focus-visible{outline:3px solid v
 @media(max-width:620px){body header .month.banner-month{margin-top:17px;padding-top:14px;gap:10px;}body header .month.banner-month h2{font-size:24px;}body header .month.banner-month .arrows button{width:34px;height:34px;}}
 @media(max-width:360px){body header .month.banner-month h2{font-size:21px;}body header .month.banner-month .arrows button{width:31px;height:33px;}}
 
+
+/* Keep feedback visible during slow image loads; text and calendar stay usable. */
+.season-picture{position:relative;min-width:0;background:var(--hero,var(--card));}
+.season-picture.art-loading img{opacity:.18;}
+.season-picture.art-error img{opacity:0;}
+.art-message{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none;font:13px "Segoe UI",Arial,sans-serif;color:var(--hero-fg,var(--fg));text-align:center;padding:18px;}
+.art-message button{pointer-events:auto;font:inherit;color:var(--fg);background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:8px 14px;cursor:pointer;}
+.art-message button[hidden],.art-message span[hidden]{display:none;}
+@media(prefers-reduced-motion:no-preference){.season-picture img{transition:opacity .12s;}}
+
 </style>
 </head>
 <body>
 <main>
 <header>
- <div class="season-picture" id="seasonPicture" hidden aria-hidden="true"><img id="seasonImage" alt="" width="1536" height="1024" decoding="async"></div>
+ <div class="season-picture" id="seasonPicture" hidden><img id="seasonImage" alt="" width="1024" height="683" decoding="async"><div class="art-message"><span id="seasonImageStatus" role="status" aria-live="polite" hidden></span><button id="retrySeasonImage" type="button" hidden>Повторить</button></div></div>
  <div>
   <div class="eyebrow">Личный кабинет ученика</div>
   <h1>Мой абонемент</h1>
@@ -394,6 +404,54 @@ const currentKey=new Date().getFullYear()+"-"+
 let index=Math.max(0,keys.indexOf(currentKey));
 let student=null;
 
+
+const monthArtworkCache=new Map();
+let requestedMonthArtwork="";
+let artworkRequest=0;
+function monthArtworkPath(season){return "./assets/monthly/"+season+"-lite.webp";}
+function loadMonthArtwork(path,priority="high"){
+ const existing=monthArtworkCache.get(path);
+ if(existing)return existing.promise;
+ const entry={image:null,promise:null};
+ entry.promise=new Promise((resolve,reject)=>{
+  let attempt=0;
+  function start(){
+   const img=new Image();entry.image=img;
+   img.decoding="async";img.fetchPriority=priority;
+   img.onload=()=>{if(img.naturalWidth>0)resolve(img);else failed();};
+   img.onerror=failed;
+   function failed(){img.onload=null;img.onerror=null;if(attempt++<2)setTimeout(start,attempt*700);else{monthArtworkCache.delete(path);reject(new Error("Image unavailable"));}}
+   img.src=path+(attempt?"?retry="+attempt:"");
+  }
+  start();
+ });
+ monthArtworkCache.set(path,entry);return entry.promise;
+}
+function showMonthArtwork(season){
+ const path=monthArtworkPath(season),view=$("seasonImage"),panel=$("seasonPicture"),status=$("seasonImageStatus");
+ if(requestedMonthArtwork===path)return;
+ requestedMonthArtwork=path;
+ const request=++artworkRequest;
+ panel.classList.add("art-loading");panel.classList.remove("art-error");
+ status.textContent="Загружаем иллюстрацию…";status.hidden=false;$("retrySeasonImage").hidden=true;
+ loadMonthArtwork(path).then(loaded=>{
+  if(request!==artworkRequest)return;
+  // Attach the already loaded image itself so switching back requires no new download.
+  loaded.id="seasonImage";loaded.alt="";loaded.width=1024;loaded.height=683;
+  view.replaceWith(loaded);
+  panel.classList.remove("art-loading","art-error");status.hidden=true;
+  const neighbors=[keys[index-1],keys[index+1]].filter(Boolean);
+  const warm=()=>neighbors.forEach(ym=>{const neighbor=monthlyArtworkNames[Number(ym.slice(5))];if(neighbor)loadMonthArtwork(monthArtworkPath(neighbor),"low").catch(()=>{});});
+  if("requestIdleCallback" in window)requestIdleCallback(warm,{timeout:1200});else setTimeout(warm,300);
+ }).catch(()=>{
+  if(request!==artworkRequest)return;
+  requestedMonthArtwork="";panel.classList.remove("art-loading");panel.classList.add("art-error");
+  status.textContent="Картинка не загрузилась";status.hidden=false;$("retrySeasonImage").hidden=false;
+ });
+}
+const monthlyArtworkNames={1:"january",2:"february",3:"march",4:"april",5:"may",6:"june",7:"july",8:"august",9:"september",10:"october",11:"november",12:"december"};
+$("retrySeasonImage").addEventListener("click",()=>{requestedMonthArtwork="";setSeason();});
+
 function setSeason(){
  const m=Number(keys[index].slice(5));
  const monthlyThemes={12:"december",1:"january",2:"february",3:"march",4:"april",5:"may",6:"june",7:"july",8:"august",9:"september",10:"october",11:"november"};
@@ -403,7 +461,7 @@ function setSeason(){
  document.body.className=season;
  const illustrated=Object.values(monthlyThemes).includes(season);
  $("seasonPicture").hidden=!illustrated;
- if(illustrated){document.body.dataset.monthArt=season;const path="./assets/monthly/"+season+".webp";if($("seasonImage").getAttribute("src")!==path)$("seasonImage").src=path;}
+ if(illustrated){document.body.dataset.monthArt=season;showMonthArtwork(season);}
  else{delete document.body.dataset.monthArt;$("seasonImage").removeAttribute("src");}
  $("symbol").textContent={
   halloween:"🎃",winter:"❄️",
@@ -662,4 +720,5 @@ setInterval(()=>{
 </script>
 </body>
 </html>
+
 
